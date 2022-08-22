@@ -1,16 +1,26 @@
 #scan path for xls files and run them trough function
 import os
 import glob
+from tkinter import E
 import pandas as pd
 import time
 
 start_time = time.time()
+Dyno = "T250"  #T250 or D600
+OutputFile = "C:/Users/BLA/OneDrive - Dinex Group/Python/RunningH/E161.csv"
 
 # scan path for xls files
-os.chdir("C:/1")
+os.chdir("G:/DET/Tests/Engine Dyno Tests/2022-Q3 E161 Weichai D2i-DPF/Measurements/Stars/")
 for file in glob.glob("*.xls"):
     # read xls file if sheet name is "CustomModalTestData"
-    df = pd.read_excel(file, sheet_name="CustomModalTestData")
+    
+    try:
+        
+        df = pd.read_excel(file, sheet_name="CustomModalTestData")
+    except:
+        print("No CustomModalTestData sheet in " + file)
+        continue
+
 
     # if DynoSpeed does not exist in the sheet, skip the file
     if "DynoSpeed" not in df.columns:
@@ -39,10 +49,13 @@ for file in glob.glob("*.xls"):
     df = df.iloc[[0]]
 
         # find lowest actdynooperatinghours
-    df['min_ActDynoOperatingHours [Real]'] = df['ActDynoOperatingHours [Real]'].min()
+        # df['min_ActDynoOperatingHours [Real]'] = df['ActDynoOperatingHours [Real]'].min()
 
     # find highest actdynooperatinghours
     df['max_ActDynoOperatingHours [Real]'] = df['ActDynoOperatingHours [Real]'].max()
+
+    # add dynoname
+    df['Dyno'] = Dyno
 
     # add file name to new column first column
     df.insert(0, 'File', file)
@@ -50,21 +63,19 @@ for file in glob.glob("*.xls"):
     print(df)
     # append to csv file write header only on first run
     if file == "E112-01.xls":
-        df.to_csv("OUT.csv", index=False)
+        df.to_csv(OutputFile, index=False)
     else:
-        df.to_csv("OUT.csv", mode='a', header=False, index=False)
+        df.to_csv(OutputFile, mode='a', header=False, index=False)
 
 
 # read csv file
-df = pd.read_csv("OUT.csv")
+#df = pd.read_csv("OUT.csv")
 
 # sort by date
-df = df.sort_values(by=['Time [Date]'])
+#df = df.sort_values(by=['Time [Date]'])
 
 # write to excel file
-df.to_excel("OUT.xlsx", sheet_name="running_hours", index=False)
+# df.to_excel("OUT.xlsx", sheet_name="running_hours", index=False)
 
 # print time for task to complete
 print("Task completed in: ", time.time() - start_time, "seconds")
-
-print("Done")
