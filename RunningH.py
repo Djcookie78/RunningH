@@ -1,7 +1,6 @@
 #scan path for xls files and run them trough function
 import os
 import glob
-from tkinter import E
 import pandas as pd
 import time
 
