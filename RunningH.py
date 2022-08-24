@@ -6,7 +6,7 @@ import time
 
 start_time = time.time()
 Dyno = "T250"  #T250 or D600
-OutputFile = "C:/Users/BLA/OneDrive - Dinex Group/Python/RunningH/E161.csv"
+OutputFile = "C:/Users/BLA/OneDrive - Dinex Group/Python/RunningH/E161-header.csv"
 
 # scan path for xls files
 os.chdir("G:/DET/Tests/Engine Dyno Tests/2022-Q3 E161 Weichai D2i-DPF/Measurements/Stars/")
@@ -64,7 +64,7 @@ for file in glob.glob("*.xls"):
     if file == "E112-01.xls":
         df.to_csv(OutputFile, index=False)
     else:
-        df.to_csv(OutputFile, mode='a', header=False, index=False)
+        df.to_csv(OutputFile, mode='a', index=False)
 
 
 # read csv file
