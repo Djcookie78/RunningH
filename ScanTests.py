@@ -21,8 +21,6 @@ class ScanFiles:
                 if file.endswith(".xls") or file.endswith(".xlsx") and "E160" in file:
                     # print path to file with slashes
                     print(os.path.join(root, file))
-                else:
-                    pass
             
 
 ScanAll = ScanFiles(path_root)
