@@ -1,4 +1,6 @@
+from ast import Index
 from distutils.util import convert_path
+from operator import index
 import os
 import glob
 import pandas as pd
@@ -14,6 +16,7 @@ class ScanFiles:
     def getpaths(self, ScanInput):
         # read csv file
         df = pd.read_csv(ScanInput)
+        # remove index
         print(df)
 
     def pathParser(self, path):
